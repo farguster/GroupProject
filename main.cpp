@@ -111,12 +111,12 @@ int main()
 		{
 			al_get_keyboard_state(&keyState);
 
-			if (al_key_down(&keyState, keyLeft))
+			if (al_key_down(&keyState, keyLeft) && !al_key_down(&keyState, keyRight))
 			{
 				playerDir = LEFT;
 				playerDX = -1;
 			}
-			else if (al_key_down(&keyState, keyRight))
+			else if (al_key_down(&keyState, keyRight) && !al_key_down(&keyState, keyLeft))
 			{
 				playerDir = RIGHT;
 				playerDX = 1;
@@ -126,12 +126,12 @@ int main()
 				playerDX = 0;
 			}
 
-			if (al_key_down(&keyState, keyUp))
+			if (al_key_down(&keyState, keyUp) && !al_key_down(&keyState, keyDown))
 			{
 				playerDir = UP;
 				playerDY = -1;
 			}
-			else if (al_key_down(&keyState, keyDown))
+			else if (al_key_down(&keyState, keyDown) && !al_key_down(&keyState, keyUp))
 			{
 				playerDir = DOWN;
 				playerDY = 1;
