@@ -1,0 +1,142 @@
+//Design document draft v0.1.2
+
+		Pointless Expedition
+
+= Genre: Action-RPG (w/roguelike elements)
+= Theme: Medieval fantasy
+- Similar to:
+	- Legend of Zelda
+	- Legend of Zelda: Link to The Past
+	- Legend of Zelda: Link's Awakening
+	- Legend of Zelda: Oracle of Ages
+	- Legend of Zelda: Oracle of Seasons
+	- Legend of Zelda: Minish Cap
+	- Neutopia
+	- Alundra
+	- Beyond Oasis
+= Platforms: WIN
+= Controls: keyboard, gamepad
+= Programming language:  C++
+= Software libraries: Allegro
+
+	Story
+~ Not important right now
+
+	Graphics
+= Windowed
+= 800x600 (4:3)
+= Sprites sizes: 8x8, 8x16, 16x16, 32x16, 32x32, 64x32, 64x64, 128x64, 128x128
+= 32x32 pixel tiles (dirt, sand, rock, grass, more in the future)
+
+	Gameplay
+= Top down perspective
+= At the start of the game, player creates a character
+= Player can choose sex, appearance and class of their character, as well as their ability scores
+= Player controls that created character
+= Player Character (PC) can move in 8 directions
+= PC can sprint
+= PC can vault over some obstacles
+= PC can enter and exit different conditions: prone, stunned (possibly more in the future)
+= PC have a Hit Point (HP) number, representing their health
+= PC gets marked and unmarked quests from NPCs and events
+= PC have a level number, starting with one (1) right after they were created by the player
+= Level of the PC increases as they get enough Experience Points (XP) to gain a new one
+= PC gets XP by defeating NPCs and monsters and completing quests
+= PC have an inventory, where they keep their items
+= PC can take items and put them in their inventory, as well as drop or discard them
+= Most items have weight, and PC have limited carrying capacity
+= PC can use (consume) certain items to get different effects. Such items will disappear after their usage (consumption)
+= PC can equip and unequip certain items, such as: armor, shield, weapon(s), jewelery etc.
+= Some items grant certain effects when equipped, other - when they are used (consumed)
+= PC can attack unarmed or with equipped weapon(s)
+= PC can interact with Non-Playable Characters (NPC): talk, trade, steal, attack
+= PC can attack monsters and NPCs and can be attacked by them
+= If PC is damaged, their HP number decreases
+= PC with less than maximum HP will slowly recover them over time
+= Certain items can increase HP recovery speed 
+= Certain items can instantly restore a portion of HP or fully increase it
+= PC dies, when their HP number is equal to (or less than) zero (0)
+= When PC dies, their level and inventory is not saved, meaning player can't continue to play as this PC. Player, however, can create new PC and play again from the beginning
+= When a monster or NPC dies, they can drop an item
+
+	Locations
+= Player will start the game in a random place outdoors
+= In a game's world, a variety of procedurally-generated dungeons can be discovered and explored, such as:
+	} caves
+	} tombs
+	} cellars
+	} palaces
+	} towers
+
+	Characters
+	} Bandits
+	} Traveling merchants
+
+	Monsters
+	} Wolf
+	} Bear
+	} Zombie
+	} Skeleton
+
+	Items
+= Armor
+	- Light
+		} Padded
+		} Leather
+	- Medium
+		} Scale mail
+		} Half plate
+	- Heavy
+		} Chain mail
+		} Plate
+
+= Shields
+	} Wooden shield
+	} Reinforced wooden shield
+	} Iron shield
+
+= Weapons
+	= Melee
+		} Dagger (thrown)
+		} Shortsword
+		} Longsword
+		} Battleaxe
+		} Club
+		} Mace
+
+		} Spear (thrown)
+		} Greatsword
+		} Greataxe
+		} Maul (Sledgehammer)
+	= Ranged
+		} Shortbow
+		} Longbow
+		} Crossbow
+		} Heavy crossbow
+
+= Jewelry
+	} Silver chain/necklace
+	} Silver ring
+
+	Controls
+Gamepad
+D-pad...........character movement / menu navigation
+A...............interact
+B...............use item
+X...............attack
+Y...............alternative attack / throw weapon
+LT..............enter / exit prone position
+RT (hold).......sprint
+Select..........inventory
+Start...........game menu
+
+Keyboard
+Arrow keys......character movement / menu navigation
+Space...........interact
+Z...............attack
+X...............alternative
+C...............use item
+Ctrl............enter / exit prone position
+Shift (hold)....sprint
+Tab.............inventory
+Escape..........game menu
