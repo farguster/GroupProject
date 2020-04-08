@@ -8,6 +8,7 @@
 
 using namespace std;
 
+// General properties
 bool gameloop = true;
 
 // Display properties
@@ -30,6 +31,9 @@ const float playerWalkSpeed = 2, playerSprintSpeed = 3;
 float playerSpeed = 2;
 int playerDX = 0, playerDY = 0;
 bool moving = false, diagonal = false, sprinting = false;
+
+// Debug
+stringstream strStr;
 
 int main()
 {
@@ -55,7 +59,7 @@ int main()
 	al_init_font_addon();
 	al_init_ttf_addon();
 
-	ALLEGRO_FONT* advpix = al_load_font("Data/Fonts/advanced_pixel-7.ttf", 40, NULL);
+	ALLEGRO_FONT* advpix = al_load_font("Data/Fonts/advanced_pixel-7.ttf", 20, NULL);
 
 	// Sprites
 	al_init_image_addon();
@@ -155,6 +159,15 @@ int main()
 				sprinting = false;
 			}
 
+			if (playerDX != 0 || playerDY != 0)
+			{
+				moving = true;
+			}
+			else
+			{
+				moving = false;
+			}
+
 			if (sprinting)
 			{
 				playerSpeed = playerSprintSpeed;
@@ -174,6 +187,25 @@ int main()
 				playerX += playerDX * cos(45) * playerSpeed;
 				playerY += playerDY * sin(45) * playerSpeed;
 			}
+
+			if (playerX < -5)
+			{
+				playerX = -5;
+			}
+			else if (playerX > displayW - 32 + 5)
+			{
+				playerX = displayW - 32 + 5;
+			}
+
+			if (playerY < -3)
+			{
+				playerY = -3;
+			}
+			else if (playerY > displayH - 64 + 3)
+			{
+				playerY = displayH - 64 + 3;
+			}
+
 			draw = true;
 		}
 
@@ -183,6 +215,19 @@ int main()
 			draw = false;
 			al_clear_to_color(black);
 			al_draw_bitmap_region(player, playerDir * 32, 0, 32, 64, playerX, playerY, NULL);
+
+			strStr << "X = " << playerX;
+			al_draw_text(advpix, magenta, 5, 5, NULL, strStr.str().c_str());
+			strStr.str(string());
+			strStr << "Y = " << playerY;
+			al_draw_text(advpix, magenta, 5, 15, NULL, strStr.str().c_str());
+			strStr.str(string());
+			strStr << "Moving = " << moving;
+			al_draw_text(advpix, magenta, 5, 25, NULL, strStr.str().c_str());
+			strStr.str(string());
+			strStr << "Sprinting = " << sprinting;
+			al_draw_text(advpix, magenta, 5, 35, NULL, strStr.str().c_str());
+			strStr.str(string());
 
 			al_flip_display();
 		}
