@@ -171,7 +171,7 @@ int main()
 			}
 			else
 			{
-				playerX += playerDX * cos(45) * playerSpeed;
+				playerX += playerDX * sin(45) * playerSpeed;
 				playerY += playerDY * sin(45) * playerSpeed;
 			}
 			draw = true;
