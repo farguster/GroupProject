@@ -107,15 +107,6 @@ int main()
 			}
 		}
 
-		if (event.type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN)
-		{
-			cout << event.joystick.button << endl;
-		}
-		else if (event.type == ALLEGRO_EVENT_JOYSTICK_AXIS)
-		{
-			cout << event.joystick.stick << " | " << event.joystick.axis << " | " << event.joystick.pos << endl;
-		}
-
 		if (event.type == ALLEGRO_EVENT_TIMER)
 		{
 			al_get_keyboard_state(&key_state);
