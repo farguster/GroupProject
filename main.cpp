@@ -1,10 +1,10 @@
-#include <sstream>
-#include <cmath>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_native_dialog.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
-#include <allegro5/allegro_image.h>
+#include<sstream>
+#include<cmath>
+#include<allegro5/allegro.h>
+#include<allegro5/allegro_native_dialog.h>
+#include<allegro5/allegro_font.h>
+#include<allegro5/allegro_ttf.h>
+#include<allegro5/allegro_image.h>
 
 using namespace std;
 
@@ -12,28 +12,28 @@ using namespace std;
 bool gameloop = true;
 
 // Display properties
-int displayW = 800;
-int displayH = 600;
+int display_w = 800;
+int display_h = 600;
 
 float fps = 60.0;
 
 // Keyboard controls properties
-int keyUp = ALLEGRO_KEY_UP, keyDown = ALLEGRO_KEY_DOWN, keyRight = ALLEGRO_KEY_RIGHT, keyLeft = ALLEGRO_KEY_LEFT;
-int keySprint = ALLEGRO_KEY_LSHIFT;
-const int keyBack = ALLEGRO_KEY_ESCAPE;
+int key_up = ALLEGRO_KEY_UP, key_down = ALLEGRO_KEY_DOWN, key_right = ALLEGRO_KEY_RIGHT, key_left = ALLEGRO_KEY_LEFT;
+int key_sprint = ALLEGRO_KEY_LSHIFT;
+const int key_back = ALLEGRO_KEY_ESCAPE;
 
 enum directions { LEFT, DOWN, RIGHT, UP };
 
 // Player properties
-float playerX = displayW / 2 - 16, playerY = displayH / 2 - 32;
-int playerDir = DOWN;
-const float playerWalkSpeed = 2, playerSprintSpeed = 3;
-float playerSpeed = 2;
-int playerDX = 0, playerDY = 0;
+float player_x = display_w / 2 - 16, player_y = display_h / 2 - 32;
+int player_dir = DOWN;
+const float player_walk_speed = 2, player_sprint_speed = 3;
+float player_speed = 2;
+int player_dx = 0, player_dy = 0;
 bool moving = false, diagonal = false, sprinting = false;
 
 // Debug
-stringstream strStr;
+stringstream str_str;
 
 int main()
 {
@@ -70,10 +70,10 @@ int main()
 	// Keyboard
 	al_install_keyboard();
 
-	ALLEGRO_KEYBOARD_STATE keyState;
+	ALLEGRO_KEYBOARD_STATE key_state;
 
 	// Display creation
-	display = al_create_display(displayW, displayH);
+	display = al_create_display(display_w, display_h);
 	al_set_new_display_flags(ALLEGRO_WINDOWED);
 	al_set_window_title(display, "Pointless Expedition");
 
@@ -102,46 +102,55 @@ int main()
 		{
 			switch (event.keyboard.keycode)
 			{
-			case keyBack:
+			case key_back:
 				gameloop = false;
 			}
 		}
 
+		if (event.type == ALLEGRO_EVENT_JOYSTICK_BUTTON_DOWN)
+		{
+			cout << event.joystick.button << endl;
+		}
+		else if (event.type == ALLEGRO_EVENT_JOYSTICK_AXIS)
+		{
+			cout << event.joystick.stick << " | " << event.joystick.axis << " | " << event.joystick.pos << endl;
+		}
+
 		if (event.type == ALLEGRO_EVENT_TIMER)
 		{
-			al_get_keyboard_state(&keyState);
+			al_get_keyboard_state(&key_state);
 
-			if (al_key_down(&keyState, keyLeft) && !al_key_down(&keyState, keyRight))
+			if (al_key_down(&key_state, key_left) && !al_key_down(&key_state, key_right))
 			{
-				playerDir = LEFT;
-				playerDX = -1;
+				player_dir = LEFT;
+				player_dx = -1;
 			}
-			else if (al_key_down(&keyState, keyRight) && !al_key_down(&keyState, keyLeft))
+			else if (al_key_down(&key_state, key_right) && !al_key_down(&key_state, key_left))
 			{
-				playerDir = RIGHT;
-				playerDX = 1;
+				player_dir = RIGHT;
+				player_dx = 1;
 			}
 			else
 			{
-				playerDX = 0;
+				player_dx = 0;
 			}
 
-			if (al_key_down(&keyState, keyUp) && !al_key_down(&keyState, keyDown))
+			if (al_key_down(&key_state, key_up) && !al_key_down(&key_state, key_down))
 			{
-				playerDir = UP;
-				playerDY = -1;
+				player_dir = UP;
+				player_dy = -1;
 			}
-			else if (al_key_down(&keyState, keyDown) && !al_key_down(&keyState, keyUp))
+			else if (al_key_down(&key_state, key_down) && !al_key_down(&key_state, key_up))
 			{
-				playerDir = DOWN;
-				playerDY = 1;
+				player_dir = DOWN;
+				player_dy = 1;
 			}
 			else
 			{
-				playerDY = 0;
+				player_dy = 0;
 			}
 
-			if (playerDX != 0 && (abs(playerDX) == abs(playerDY)))
+			if (player_dx != 0 && (abs(player_dx) == abs(player_dy)))
 			{
 				diagonal = true;
 			}
@@ -150,7 +159,7 @@ int main()
 				diagonal = false;
 			}
 
-			if (al_key_down(&keyState, keySprint))
+			if (al_key_down(&key_state, key_sprint))
 			{
 				sprinting = true;
 			}
@@ -159,51 +168,53 @@ int main()
 				sprinting = false;
 			}
 
-			if (playerDX != 0 || playerDY != 0)
+			if (player_dx != 0 || player_dy != 0)
 			{
 				moving = true;
 			}
 			else
 			{
 				moving = false;
+				sprinting = false;
 			}
 
 			if (sprinting)
 			{
-				playerSpeed = playerSprintSpeed;
+				player_speed = player_sprint_speed;
 			}
 			else
 			{
-				playerSpeed = playerWalkSpeed;
+				player_speed = player_walk_speed;
 			}
 
 			if (!diagonal)
 			{
-				playerX += playerDX * playerSpeed;
-				playerY += playerDY * playerSpeed;
+				player_x += player_dx * player_speed;
+				player_y += player_dy * player_speed;
 			}
 			else
 			{
-				playerX += playerDX * cos(45) * playerSpeed;
-				playerY += playerDY * sin(45) * playerSpeed;
+				player_x += player_dx * cos(45) * player_speed;
+				player_y += player_dy * sin(45) * player_speed;
 			}
 
-			if (playerX < -5)
+			// Window borders limits for movement
+			if (player_x < -5)
 			{
-				playerX = -5;
+				player_x = -5;
 			}
-			else if (playerX > displayW - 32 + 5)
+			else if (player_x > display_w - 32 + 5)
 			{
-				playerX = displayW - 32 + 5;
+				player_x = display_w - 32 + 5;
 			}
 
-			if (playerY < -3)
+			if (player_y < -3)
 			{
-				playerY = -3;
+				player_y = -3;
 			}
-			else if (playerY > displayH - 64 + 3)
+			else if (player_y > display_h - 64 + 3)
 			{
-				playerY = displayH - 64 + 3;
+				player_y = display_h - 64 + 3;
 			}
 
 			draw = true;
@@ -214,20 +225,21 @@ int main()
 		{
 			draw = false;
 			al_clear_to_color(black);
-			al_draw_bitmap_region(player, playerDir * 32, 0, 32, 64, playerX, playerY, NULL);
+			al_draw_bitmap_region(player, player_dir * 32, 0, 32, 64, player_x, player_y, NULL);
 
-			strStr << "X = " << playerX;
-			al_draw_text(advpix, magenta, 5, 5, NULL, strStr.str().c_str());
-			strStr.str(string());
-			strStr << "Y = " << playerY;
-			al_draw_text(advpix, magenta, 5, 15, NULL, strStr.str().c_str());
-			strStr.str(string());
-			strStr << "Moving = " << moving;
-			al_draw_text(advpix, magenta, 5, 25, NULL, strStr.str().c_str());
-			strStr.str(string());
-			strStr << "Sprinting = " << sprinting;
-			al_draw_text(advpix, magenta, 5, 35, NULL, strStr.str().c_str());
-			strStr.str(string());
+			// if (debug_mode)
+			str_str << "X = " << player_x;
+			al_draw_text(advpix, magenta, 5, 5, NULL, str_str.str().c_str());
+			str_str.str(string());
+			str_str << "Y = " << player_y;
+			al_draw_text(advpix, magenta, 5, 15, NULL, str_str.str().c_str());
+			str_str.str(string());
+			str_str << "Moving = " << moving;
+			al_draw_text(advpix, magenta, 5, 25, NULL, str_str.str().c_str());
+			str_str.str(string());
+			str_str << "Sprinting = " << sprinting;
+			al_draw_text(advpix, magenta, 5, 35, NULL, str_str.str().c_str());
+			str_str.str(string());
 
 			al_flip_display();
 		}
